@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <horstretch>15</horstretch>
+    <verstretch>15</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>768</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>PowerPC Instruction Helper</string>
+  </property>
+  <widget class="QTextEdit" name="textEdit_Pseudocode">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>250</y>
+     <width>721</width>
+     <height>151</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>230</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="text">
+    <string>Pseudocode</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>410</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="text">
+    <string>Generated</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_GenCode">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>440</y>
+     <width>151</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Generate Code</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="textEdit_generatedCode">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>430</y>
+     <width>721</width>
+     <height>311</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>110</y>
+     <width>531</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Operands</string>
+   </property>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>20</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>DST</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>20</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>SRC3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_DstElemType">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>80</y>
+      <width>86</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>int8_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint8_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int16_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint16_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int32_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint32_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int64_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint64_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int128_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint128_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>float</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>double</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="comboBox_Src3ElemType">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>80</y>
+      <width>86</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>int8_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint8_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int16_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint16_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int32_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint32_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int64_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint64_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int128_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint128_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>float</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>double</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>20</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>SRC1</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_Src2ElemType">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>80</y>
+      <width>86</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>int8_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint8_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int16_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint16_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int32_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint32_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int64_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint64_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int128_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint128_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>float</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>double</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>20</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>SRC2</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_Src1ElemType">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>80</y>
+      <width>86</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>int8_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint8_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int16_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint16_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int32_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint32_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int64_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint64_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>int128_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>uint128_t</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>float</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>double</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="comboBox_Src1RegType">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>50</y>
+      <width>86</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>VRA</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>RA</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>FRA</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="comboBox_Src2RegType">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>50</y>
+      <width>86</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>VRB</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>RB</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>FRB</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="comboBox_Src3RegType">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>50</y>
+      <width>86</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>VRC</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>RC</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>FRC</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="comboBox_DstRegType">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>50</y>
+      <width>86</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>VRT</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>RT</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>FRT</string>
+     </property>
+    </item>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>19</y>
+     <width>531</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Instruction Format</string>
+   </property>
+   <widget class="QLineEdit" name="lineEdit_XO">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>50</y>
+      <width>113</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhPreferNumbers</set>
+    </property>
+    <property name="inputMask">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_Format">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>101</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>VX Form</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>VA Form</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>VC Form</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_mnemonics">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>50</y>
+      <width>113</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>30</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>Mnemonics</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_PO">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>50</y>
+      <width>113</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhNone</set>
+    </property>
+    <property name="inputMask">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>30</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>XO</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>30</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>PO</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_Format_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>101</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>IntArithOp</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>FloatArithOp</string>
+     </property>
+    </item>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton_GenTest">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>680</y>
+     <width>151</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Generate TestBench</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="MachineCode">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>640</y>
+     <width>121</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Machine Code</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_InsertCode">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>510</y>
+     <width>151</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Insert Code</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
