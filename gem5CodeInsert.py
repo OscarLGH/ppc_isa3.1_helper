@@ -6,11 +6,82 @@ from pathlib import Path
 class gem5CodeInsert(object):
     def openInsertFile(self, code, fileName):
         fd_rd = open(fileName, "rt+")
-        str = fd_rd.read()
 
+        isa = fd_rd.readlines()
         fd_rd.close()
+        code_lines = code.split("\n")
+        ret = re.match("    (.*): decode (.*) {", code_lines[1])
+        place_holder = "/* ###{}: decode {}### */".format(ret.group(1), ret.group(2))
+        #print(place_holder)
+
+        space = ""
+        for eachline in isa:
+            if place_holder in eachline:
+                print(eachline)
+                ret = re.match("(\s*)(.*)###", eachline)
+                if ret != None:
+                    print(ret.groups())
+                    space = ret.group(1)
+        #print("space:{}".format(space))
+
+        space_cnt = 0
+        for i in space:
+            if i == ' ':
+                space_cnt += 1
+
+        #print(space_cnt)
+        space_code = ""
+        for i in range(0, space_cnt - 12):
+            space_code += ' '
+
+        insert_code = "\n"
+        for eachline in code_lines[3:-4]:
+            eachline = "{}{}\n".format(space_code, eachline)
+            insert_code += eachline
+        print(insert_code)
+
+        fd_rd = open(fileName, "rt+")
+        isa = fd_rd.read()
+
+        isa = isa.replace(place_holder, "{}{}{}\n".format(insert_code, space, place_holder))
+        fd_rd.close()
+
+        fd_wr = open(fileName, "wt")
+        fd_wr.write(isa)
+
+        fd_wr.close()
+
         return str
+
+    def findBlock(self, lines, str):
+        i = 0
+        bracket_match = 0
+        flag = False
+        flag1 = False
+        start = 0
+        end = 0
+        for line in lines:
+            i = i + 1
+            if (str in line):
+                flag = True
+                start = i
+            if (flag) :
+                for j in range(0, len(line)) :
+
+                    if (line[j] == '{'):
+                        flag1 = True
+                        bracket_match = bracket_match - 1
+
+                    if (line[j] == '}'):
+                        bracket_match = bracket_match + 1
+
+                    if (flag1 and bracket_match == 0):
+                        end = i
+                        return start,end
+
+        return -1,-1
+
 
 if __name__ == "__main__":
     test = gem5CodeInsert()
-    test.openInsertFile(sys.argv[1], sys.argv[2], sys.argv[3])
+    test.openInsertFile(sys.argv[1], sys.argv[2])

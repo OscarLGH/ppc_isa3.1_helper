@@ -5,6 +5,7 @@ from mainForm import Ui_Form
 
 from testBenchGen import testBenchGen
 from gem5CodeGen import gem5CodeGen
+from gem5CodeInsert import gem5CodeInsert
  
 class MyMainForm(QMainWindow, Ui_Form):
     def __init__(self, parent=None):
@@ -85,7 +86,10 @@ if __name__ == "__main__":
         win.textEdit_generatedCode.setText(test_str)
 
     def insertCode(win):
-        win.textEdit_generatedCode.toPlainText()
+        code = win.textEdit_generatedCode.toPlainText()
+        insert = gem5CodeInsert()
+        insert.openInsertFile(code, "decoder.isa")
+
 
     myWin.pushButton_GenCode.clicked.connect(lambda :generate_code(myWin))
     myWin.pushButton_GenTest.clicked.connect(lambda :generate_test(myWin))

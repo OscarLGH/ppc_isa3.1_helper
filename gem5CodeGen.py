@@ -25,7 +25,7 @@ class gem5CodeGen(object):
 
 if __name__ == "__main__":
     test = gem5CodeGen()
-    test.openReplaceFile(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4],
+    test.openReplaceTemplate(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4],
                         sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8],
                         sys.argv[9]
                         )

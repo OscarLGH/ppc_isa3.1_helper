@@ -1,4 +1,4 @@
-decode PO default Unkonwn::unknown {
+decode PO default Unknown::unknown() {
     "###PO###": decode "###BITFIELDS###" {
         format "###FORMAT###" {
             "###XO###":"###MNEMONICS###"({{
@@ -28,6 +28,6 @@ decode PO default Unkonwn::unknown {
 
                 tc->setVecReg(dst_id, dst_reg);
             }});
-        }    
+        }
     }
  }
