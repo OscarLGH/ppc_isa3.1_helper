@@ -20,11 +20,20 @@ decode PO default Unknown::unknown() {
                 "###COMMENT###"
                 */
 
+                /* CODE SEG 1 */
+                "###CODE_SEG_1###"
+                /* CODE SEG 1 END */
+
                 for (auto i = 0; i < "###ITERATIONS###"; i++) {
 
-                    /* MAIN CODE */
-                    vrt_val[i] = vra_val[i] * vrc_val[i] + vrb_val[i];
+                    /* CODE SEG 2 */
+                    "###CODE_SEG_2###"
+                    /* CODE SEG 2 END */
                 }
+
+                /* CODE SEG 3 */
+                "###CODE_SEG_3###"
+                /* CODE SEG 3 END */
 
                 tc->setVecReg(vrt_id, vrt_reg);
             }});

@@ -787,20 +787,36 @@
     </rect>
    </property>
    <property name="text">
-    <string>Debug</string>
+    <string>Run</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="Checkbox_Compile">
    <property name="geometry">
     <rect>
-     <x>840</x>
+     <x>830</x>
      <y>660</y>
-     <width>121</width>
+     <width>81</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
     <string>Compile</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="Checkbox_Debug">
+   <property name="geometry">
+    <rect>
+     <x>910</x>
+     <y>660</y>
+     <width>81</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Debug</string>
    </property>
    <property name="checked">
     <bool>true</bool>

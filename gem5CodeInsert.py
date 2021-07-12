@@ -43,7 +43,7 @@ class gem5CodeInsert(object):
         fd_rd = open(fileName, "rt+")
         isa = fd_rd.read()
 
-        isa = isa.replace(place_holder, "{}{}{}\n".format(insert_code, space, place_holder))
+        isa = isa.replace("{}{}".format(space, place_holder), "{}{}{}\n".format(insert_code, space, place_holder))
         fd_rd.close()
 
         fd_wr = open("decoder.isa", "wt")

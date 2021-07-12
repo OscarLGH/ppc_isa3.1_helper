@@ -4,14 +4,15 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from mainForm import Ui_Form
 
 from testBenchGen import testBenchGen
-from gem5CodeGen import gem5CodeGen
+from gem5CodeGen import gem5_code_gen
 from gem5CodeInsert import gem5CodeInsert
-from gem5Debug import gem5Debug
+from gem5DebugRun import gem5DebugRun
  
 class MyMainForm(QMainWindow, Ui_Form):
     def __init__(self, parent=None):
         super(MyMainForm, self).__init__(parent)
         self.setupUi(self)
+        self.code = None
 
 
 if __name__ == "__main__":
@@ -51,10 +52,14 @@ if __name__ == "__main__":
         if (format == "VX Form"):
             isa_format = "X_XO"
 
-        code = gem5CodeGen()
-        code_str = code.openReplaceTemplate("gem5_code_template.isa", PO, isa_format, format2, XO, Mnemonics,pseudocode,
+        if (win.code == None) :
+            win.code = gem5_code_gen()
+        else:
+            win.code.save_code(win.textEdit_generatedCode.toPlainText())
+
+        code_str = win.code.open_replace_template("gem5_code_template.isa", PO, isa_format, format2, XO, Mnemonics,pseudocode,
                                         comboBox_Src1ElemType, comboBox_Src2ElemType, comboBox_Src3ElemType, comboBox_DstElemType,
-                                        "{:.0f}".format(128 / op_bits))
+                                        "{:.0f}".format(128 / op_bits), "", "", "")
         win.textEdit_generatedCode.setText(code_str)
 
     def generate_test(win):
@@ -91,11 +96,12 @@ if __name__ == "__main__":
         insert = gem5CodeInsert()
         insert.openInsertFile(code, "decoder.isa")
 
-    def debug(win):
+    def run(win):
         mnemonics = win.lineEdit_mnemonics.text()
-        compile = machineCode = win.Checkbox_Compile.isChecked()
-        debug = gem5Debug()
-        debug.gem5Debug(mnemonics, compile)
+        compile = win.Checkbox_Compile.isChecked()
+        debug = win.Checkbox_Debug.isChecked()
+        run = gem5DebugRun()
+        run.gem5DebugRun(mnemonics, compile, debug)
 
     def sync_operands(win):
         if (win.Checkbox_OperandSync.isChecked()):
@@ -108,7 +114,7 @@ if __name__ == "__main__":
     myWin.pushButton_GenCode.clicked.connect(lambda :generate_code(myWin))
     myWin.pushButton_GenTest.clicked.connect(lambda :generate_test(myWin))
     myWin.pushButton_InsertCode.clicked.connect(lambda :insertCode(myWin))
-    myWin.pushButton_Debug.clicked.connect(lambda :debug(myWin))
+    myWin.pushButton_Debug.clicked.connect(lambda :run(myWin))
     myWin.comboBox_DstElemType.currentIndexChanged.connect(lambda :sync_operands(myWin))
     myWin.show()
 
