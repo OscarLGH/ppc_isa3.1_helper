@@ -77,7 +77,7 @@
    <property name="geometry">
     <rect>
      <x>830</x>
-     <y>440</y>
+     <y>430</y>
      <width>151</width>
      <height>51</height>
     </rect>
@@ -111,7 +111,7 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>410</x>
+      <x>360</x>
       <y>20</y>
       <width>67</width>
       <height>17</height>
@@ -130,7 +130,7 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>250</x>
       <y>20</y>
       <width>67</width>
       <height>17</height>
@@ -149,7 +149,7 @@
    <widget class="QComboBox" name="comboBox_DstElemType">
     <property name="geometry">
      <rect>
-      <x>400</x>
+      <x>350</x>
       <y>80</y>
       <width>86</width>
       <height>25</height>
@@ -197,12 +197,12 @@
     </item>
     <item>
      <property name="text">
-      <string>int128_t</string>
+      <string>__int128_t</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>uint128_t</string>
+      <string>__uint128_t</string>
      </property>
     </item>
     <item>
@@ -219,7 +219,7 @@
    <widget class="QComboBox" name="comboBox_Src3ElemType">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>240</x>
       <y>80</y>
       <width>86</width>
       <height>25</height>
@@ -267,12 +267,12 @@
     </item>
     <item>
      <property name="text">
-      <string>int128_t</string>
+      <string>__int128_t</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>uint128_t</string>
+      <string>__uint128_t</string>
      </property>
     </item>
     <item>
@@ -289,7 +289,7 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>30</x>
       <y>20</y>
       <width>67</width>
       <height>17</height>
@@ -308,7 +308,7 @@
    <widget class="QComboBox" name="comboBox_Src2ElemType">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>130</x>
       <y>80</y>
       <width>86</width>
       <height>25</height>
@@ -356,12 +356,12 @@
     </item>
     <item>
      <property name="text">
-      <string>int128_t</string>
+      <string>__int128_t</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>uint128_t</string>
+      <string>__uint128_t</string>
      </property>
     </item>
     <item>
@@ -378,7 +378,7 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>140</x>
       <y>20</y>
       <width>67</width>
       <height>17</height>
@@ -397,7 +397,7 @@
    <widget class="QComboBox" name="comboBox_Src1ElemType">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>20</x>
       <y>80</y>
       <width>86</width>
       <height>25</height>
@@ -445,12 +445,12 @@
     </item>
     <item>
      <property name="text">
-      <string>int128_t</string>
+      <string>__int128_t</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>uint128_t</string>
+      <string>__uint128_t</string>
      </property>
     </item>
     <item>
@@ -467,7 +467,7 @@
    <widget class="QComboBox" name="comboBox_Src1RegType">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>20</x>
       <y>50</y>
       <width>86</width>
       <height>25</height>
@@ -492,7 +492,7 @@
    <widget class="QComboBox" name="comboBox_Src2RegType">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>130</x>
       <y>50</y>
       <width>86</width>
       <height>25</height>
@@ -517,7 +517,7 @@
    <widget class="QComboBox" name="comboBox_Src3RegType">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>240</x>
       <y>50</y>
       <width>86</width>
       <height>25</height>
@@ -542,7 +542,7 @@
    <widget class="QComboBox" name="comboBox_DstRegType">
     <property name="geometry">
      <rect>
-      <x>400</x>
+      <x>350</x>
       <y>50</y>
       <width>86</width>
       <height>25</height>
@@ -563,6 +563,22 @@
       <string>FRT</string>
      </property>
     </item>
+   </widget>
+   <widget class="QCheckBox" name="Checkbox_OperandSync">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>80</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Sync</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
    </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
@@ -726,7 +742,7 @@
    <property name="geometry">
     <rect>
      <x>830</x>
-     <y>680</y>
+     <y>600</y>
      <width>151</width>
      <height>51</height>
     </rect>
@@ -739,7 +755,7 @@
    <property name="geometry">
     <rect>
      <x>840</x>
-     <y>640</y>
+     <y>570</y>
      <width>121</width>
      <height>21</height>
     </rect>
@@ -761,7 +777,60 @@
     <string>Insert Code</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_Debug">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>690</y>
+     <width>151</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Debug</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="Checkbox_Compile">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>660</y>
+     <width>121</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Compile</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_mnemonics</tabstop>
+  <tabstop>lineEdit_PO</tabstop>
+  <tabstop>lineEdit_XO</tabstop>
+  <tabstop>comboBox_Format</tabstop>
+  <tabstop>comboBox_Format_2</tabstop>
+  <tabstop>Checkbox_OperandSync</tabstop>
+  <tabstop>comboBox_Src1RegType</tabstop>
+  <tabstop>comboBox_Src1ElemType</tabstop>
+  <tabstop>comboBox_Src2RegType</tabstop>
+  <tabstop>comboBox_Src2ElemType</tabstop>
+  <tabstop>comboBox_Src3RegType</tabstop>
+  <tabstop>comboBox_Src3ElemType</tabstop>
+  <tabstop>comboBox_DstRegType</tabstop>
+  <tabstop>comboBox_DstElemType</tabstop>
+  <tabstop>textEdit_Pseudocode</tabstop>
+  <tabstop>textEdit_generatedCode</tabstop>
+  <tabstop>pushButton_GenCode</tabstop>
+  <tabstop>pushButton_InsertCode</tabstop>
+  <tabstop>MachineCode</tabstop>
+  <tabstop>pushButton_GenTest</tabstop>
+  <tabstop>Checkbox_Compile</tabstop>
+  <tabstop>pushButton_Debug</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

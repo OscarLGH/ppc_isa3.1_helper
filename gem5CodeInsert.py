@@ -5,30 +5,30 @@ from pathlib import Path
 
 class gem5CodeInsert(object):
     def openInsertFile(self, code, fileName):
+
+        code_lines = code.split("\n")
+        ret1 = re.match("    (.*): decode (.*) {", code_lines[1])
+        ret2 = re.match("        format (.*) {", code_lines[2])
+        place_holder = "// ###{}: decode {} {}###".format(ret1.group(1), ret1.group(2), ret2.group(1))
+        print(place_holder)
+
+        #os.popen("cp ../gem5/src/arch/power/isa/decoder.isa . && sync")
+        fileName = "../gem5/src/arch/power/isa/decoder.isa"
         fd_rd = open(fileName, "rt+")
 
         isa = fd_rd.readlines()
         fd_rd.close()
-        code_lines = code.split("\n")
-        ret = re.match("    (.*): decode (.*) {", code_lines[1])
-        place_holder = "/* ###{}: decode {}### */".format(ret.group(1), ret.group(2))
-        #print(place_holder)
-
         space = ""
         for eachline in isa:
             if place_holder in eachline:
                 print(eachline)
                 ret = re.match("(\s*)(.*)###", eachline)
                 if ret != None:
-                    print(ret.groups())
+                    #print(ret.groups())
                     space = ret.group(1)
         #print("space:{}".format(space))
 
-        space_cnt = 0
-        for i in space:
-            if i == ' ':
-                space_cnt += 1
-
+        space_cnt = len(space)
         #print(space_cnt)
         space_code = ""
         for i in range(0, space_cnt - 12):
@@ -46,7 +46,7 @@ class gem5CodeInsert(object):
         isa = isa.replace(place_holder, "{}{}{}\n".format(insert_code, space, place_holder))
         fd_rd.close()
 
-        fd_wr = open(fileName, "wt")
+        fd_wr = open("decoder.isa", "wt")
         fd_wr.write(isa)
 
         fd_wr.close()

@@ -6,6 +6,7 @@ from mainForm import Ui_Form
 from testBenchGen import testBenchGen
 from gem5CodeGen import gem5CodeGen
 from gem5CodeInsert import gem5CodeInsert
+from gem5Debug import gem5Debug
  
 class MyMainForm(QMainWindow, Ui_Form):
     def __init__(self, parent=None):
@@ -45,9 +46,9 @@ if __name__ == "__main__":
             op_bits = 64
 
         isa_format = ""
-        if (format == "VA Form") :
+        if (format == "VA Form"):
             isa_format = "VA_XO"
-        if (format == "VX Form") :
+        if (format == "VX Form"):
             isa_format = "X_XO"
 
         code = gem5CodeGen()
@@ -64,9 +65,9 @@ if __name__ == "__main__":
         XO = win.lineEdit_XO.text()
 
         disassemble_inst = ""
-        if (format == "VA Form") :
+        if (format == "VA Form"):
             disassemble_inst = "{} %%v3, %%v0, %%v1, %%v2".format(Mnemonics)
-        if (format == "VX Form") :
+        if (format == "VX Form"):
             disassemble_inst = "{} %%v3, %%v0, %%v1".format(Mnemonics)
         if (machineCode) :
             po_code = int(PO, 10)
@@ -75,9 +76,9 @@ if __name__ == "__main__":
             vra = 0
             vrb = 1
             vrc = 2
-            if (format == "VA Form") :
+            if (format == "VA Form"):
                 inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (vrc << 6) | (xo_code)
-            if (format == "VX Form") :
+            if (format == "VX Form"):
                 inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code)
             disassemble_inst = "/*{}*/.long 0x{:08X}".format(disassemble_inst, inst_word)
 
@@ -90,10 +91,25 @@ if __name__ == "__main__":
         insert = gem5CodeInsert()
         insert.openInsertFile(code, "decoder.isa")
 
+    def debug(win):
+        mnemonics = win.lineEdit_mnemonics.text()
+        compile = machineCode = win.Checkbox_Compile.isChecked()
+        debug = gem5Debug()
+        debug.gem5Debug(mnemonics, compile)
+
+    def sync_operands(win):
+        if (win.Checkbox_OperandSync.isChecked()):
+            index = win.comboBox_DstElemType.currentIndex()
+            win.comboBox_Src1ElemType.setCurrentIndex(index)
+            win.comboBox_Src2ElemType.setCurrentIndex(index)
+            win.comboBox_Src3ElemType.setCurrentIndex(index)
+
 
     myWin.pushButton_GenCode.clicked.connect(lambda :generate_code(myWin))
     myWin.pushButton_GenTest.clicked.connect(lambda :generate_test(myWin))
     myWin.pushButton_InsertCode.clicked.connect(lambda :insertCode(myWin))
+    myWin.pushButton_Debug.clicked.connect(lambda :debug(myWin))
+    myWin.comboBox_DstElemType.currentIndexChanged.connect(lambda :sync_operands(myWin))
     myWin.show()
 
     sys.exit(app.exec_())

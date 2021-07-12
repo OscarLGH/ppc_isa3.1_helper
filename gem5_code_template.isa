@@ -26,7 +26,7 @@ decode PO default Unknown::unknown() {
                     vrt_val[i] = vra_val[i] * vrc_val[i] + vrb_val[i];
                 }
 
-                tc->setVecReg(dst_id, dst_reg);
+                tc->setVecReg(vrt_id, vrt_reg);
             }});
         }
     }
