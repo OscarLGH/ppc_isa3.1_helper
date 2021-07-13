@@ -6,14 +6,14 @@ from mainForm import Ui_Form
 from testBenchGen import testBenchGen
 from gem5CodeGen import gem5_code_gen
 from gem5CodeInsert import gem5CodeInsert
-from gem5DebugRun import gem5DebugRun
+from gem5DebugRun import gem5_debug_run
  
 class MyMainForm(QMainWindow, Ui_Form):
     def __init__(self, parent=None):
         super(MyMainForm, self).__init__(parent)
         self.setupUi(self)
         self.code = None
-        self.debug = None
+        self.run = None
 
 
 if __name__ == "__main__":
@@ -103,11 +103,17 @@ if __name__ == "__main__":
         compile = win.Checkbox_Compile.isChecked()
         
         
-        debug = win.Checkbox_Debug.isChecked()
-        if (win.debug == None):
-            win.debug = gem5DebugRun()
+        test_only = win.Checkbox_TestOnly.isChecked()
+        if (win.run == None):
+            win.run = gem5_debug_run()
 
-        win.debug.gem5DebugRun(mnemonics, compile, debug)
+        win.run.gem5_debug_run(mnemonics, compile, test_only)
+
+    def commit_file(win):
+        if (win.run == None):
+            print("insert code and click 'run' first!")
+        else:
+            win.run.gem5_commit_file()
 
     def sync_operands(win):
         if (win.Checkbox_OperandSync.isChecked()):
@@ -121,6 +127,7 @@ if __name__ == "__main__":
     myWin.pushButton_GenTest.clicked.connect(lambda :generate_test(myWin))
     myWin.pushButton_InsertCode.clicked.connect(lambda :insertCode(myWin))
     myWin.pushButton_Debug.clicked.connect(lambda :run(myWin))
+    myWin.pushButton_Commit.clicked.connect(lambda :commit_file(myWin))
     myWin.comboBox_DstElemType.currentIndexChanged.connect(lambda :sync_operands(myWin))
     myWin.show()
 

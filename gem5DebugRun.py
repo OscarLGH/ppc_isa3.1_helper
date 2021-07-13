@@ -5,39 +5,51 @@ import signal
 import subprocess
 from pathlib import Path
 
-class gem5DebugRun(object):
+class gem5_debug_run(object):
     def __init__(self, parent=None):
         self.make_process = None
         
-    def gem5DebugRun(self, instName, compile, debug):
-        gcc_make_cmdout = os.popen("cd ../test_bench && gcc test_bench_{}.c -static -o test_bench_{} && sync".format(instName, instName))
-        print(gcc_make_cmdout.read())
-        c_exec_cmdout = os.popen("cd ../test_bench && ./test_bench_{} | grep 'output' > test_bench_{}_output.log && sync".format(instName, instName))
-        print(c_exec_cmdout.read())
+    def gem5_debug_run(self, instName, compile, test_only):
+
+        if (test_only) :
+            cmd1 = ""
+            cmd3 = ""
+        else:
+            cmd1 = "cp ../gem5/src/arch/power/isa/decoder.isa ../gem5/src/arch/power/isa/decoder.isa.bak && \
+                    cp decoder.isa ../gem5/src/arch/power/isa/decoder.isa &&"
+            cmd3 = "cp gem5/src/arch/power/isa/decoder.isa.bak gem5/src/arch/power/isa/decoder.isa"
 
         if (compile):
-            os.popen("cp ../gem5/src/arch/power/isa/decoder.isa ../gem5/src/arch/power/isa/decoder.isa.bak")
-            os.popen("cp decoder.isa ../gem5/src/arch/power/isa/decoder.isa && sync")
+            cmd2 = "scons build/POWER/gem5.opt -j160 &&"
             if (self.make_process != None):
                 os.killpg(os.getpgid(self.make_process.pid), signal.SIGTERM)
                 self.make_process.kill()
-
-        if (debug):
-            self.make_process = subprocess.Popen("cd ../gem5 && \
-            	scons build/POWER/gem5.opt -j160 && \
-            	build/POWER/gem5.opt --debug-flags=O3CPUAll,Registers configs/example/se.py -c ../test_bench/test_bench_{} \
-                | grep 'output'> gem5_{}_output.log && sync && cat gem5_{}_output.log && cd .. && \
-                echo 'comparing results:\n' && \
-                diff gem5/gem5_{}_output.log test_bench/test_bench_{}_output.log && \
-                cp gem5/src/arch/power/isa/decoder.isa.bak gem5/src/arch/power/isa/decoder.isa".format(instName, instName, instName, instName, instName), shell=True, preexec_fn=os.setsid)
-            #print(gem5_make_cmdout.read())
         else:
-            self.make_process = subprocess.Popen("cd ../gem5 && \
-            	scons build/POWER/gem5.opt -j160 && \
-            	build/POWER/gem5.opt --debug-flags=O3CPUAll,Registers configs/example/se.py -c ../test_bench/test_bench_{} \
-                | grep 'output'> gem5_{}_output.log && sync && cd .. && \
-                diff gem5/gem5_{}_output.log test_bench/test_bench_{}_output.log &&".format(instName, instName, instName, instName), shell=True, preexec_fn=os.setsid)
+            cmd2 = ""
+
+        cmd_str = " {0} \
+                    cd ../test_bench && \
+                    gcc test_bench_{2}.c -static -o test_bench_{2} && \
+                    ./test_bench_{2} | grep 'output' > test_bench_{2}_output.log && \
+                    cd ../gem5 && \
+            	    {1} \
+            	    build/POWER/gem5.opt --debug-flags=O3CPUAll,Registers configs/example/se.py -c ../test_bench/test_bench_{2} \
+                    | grep 'output'> gem5_{2}_output.log && \
+                    cat gem5_{2}_output.log && \
+                    cd .. && \
+                    echo 'comparing results:\n' && \
+                    diff gem5/gem5_{2}_output.log test_bench/test_bench_{2}_output.log ; \
+                    if [ $? -eq 0 ]; then echo '\e[32m\e[1mUnit test passed!\e[0m' ; else echo '\e[31m\e[1mUnit test failed!\e[0m'; fi ;\
+                    {3} \
+                        ".format(cmd1, cmd2, instName, cmd3)
+        #print(cmd_str)
+
+        self.make_process = subprocess.Popen(cmd_str, shell=True, preexec_fn=os.setsid)
+
+    def gem5_commit_file(self):
+        cmd_str = "cp decoder.isa ../gem5/src/arch/power/isa/decoder.isa && echo '\e[32m\e[1mfile committed.\e[0m'"
+        subprocess.Popen(cmd_str, shell=True, preexec_fn=os.setsid)
 
 if __name__ == "__main__":
-    test = gem5DebugRun()
-    test.gem5DebugRun(sys.argv[1], argv[2] == "1", argv[3] == "1")
+    test = gem5_debug_run()
+    test.gem5_debug_run(sys.argv[1], argv[2] == "1", argv[3] == "1")

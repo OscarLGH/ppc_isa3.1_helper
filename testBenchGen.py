@@ -1,6 +1,7 @@
 import os
 import sys
 import re
+import subprocess
 from pathlib import Path
 
 class testBenchGen(object):
@@ -17,6 +18,12 @@ class testBenchGen(object):
         fd_wr.write(str)
         fd_wr.close()
         fd_rd.close()
+        subprocess.Popen("cd ../test_bench && gedit test_bench_{0}.c && \
+                gcc test_bench_{0}.c -static -o test_bench_{0} && \
+                ./test_bench_{0} | grep 'output' > test_bench_{0}_output.log &&\
+                cat test_bench_{0}_output.log \
+                    ".format(instName), 
+                shell=True, preexec_fn=os.setsid)
         return str
 
 if __name__ == "__main__":
