@@ -1,6 +1,7 @@
 import os
 import sys
 import re
+import signal
 import subprocess
 from pathlib import Path
 
@@ -16,26 +17,26 @@ class gem5DebugRun(object):
 
         if (compile):
             os.popen("cp ../gem5/src/arch/power/isa/decoder.isa ../gem5/src/arch/power/isa/decoder.isa.bak")
-            os.popen("cp decoder.isa ../gem5/src/arch/power/isa/decoder.isa")
+            os.popen("cp decoder.isa ../gem5/src/arch/power/isa/decoder.isa && sync")
             if (self.make_process != None):
-                if (self.make_process.poll() == 0):
-                    self.make_process.kill()
-
-            self.make_process = subprocess.Popen("cd ../gem5 && scons build/POWER/gem5.opt -j160", shell=True)
-            #print(gem5_make_cmdout.read())
-
-        gem5_exec_cmdout = os.popen("cd ../gem5 && build/POWER/gem5.opt --debug-flags=O3CPUAll,Registers \
-            configs/example/se.py -c ../test_bench/test_bench_{} \
-                | grep 'output'> gem5_{}_output.log && sync".format(instName, instName))
-        print(gem5_exec_cmdout.read())
-        diff_cmdout = os.popen("cd .. && diff gem5/gem5_{}_output.log test_bench/test_bench_{}_output.log".format(instName, instName))
-        if (diff_cmdout.read() == ""):
-            print("########result match########\n")
-        else:
-            print(diff_cmdout.read())
+                os.killpg(os.getpgid(self.make_process.pid), signal.SIGTERM)
+                self.make_process.kill()
 
         if (debug):
-            os.popen("cp ../gem5/src/arch/power/isa/decoder.isa.bak ../gem5/src/arch/power/isa/decoder.isa")
+            self.make_process = subprocess.Popen("cd ../gem5 && \
+            	scons build/POWER/gem5.opt -j160 && \
+            	build/POWER/gem5.opt --debug-flags=O3CPUAll,Registers configs/example/se.py -c ../test_bench/test_bench_{} \
+                | grep 'output'> gem5_{}_output.log && sync && cat gem5_{}_output.log && cd .. && \
+                echo 'comparing results:\n' && \
+                diff gem5/gem5_{}_output.log test_bench/test_bench_{}_output.log && \
+                cp gem5/src/arch/power/isa/decoder.isa.bak gem5/src/arch/power/isa/decoder.isa".format(instName, instName, instName, instName, instName), shell=True, preexec_fn=os.setsid)
+            #print(gem5_make_cmdout.read())
+        else:
+            self.make_process = subprocess.Popen("cd ../gem5 && \
+            	scons build/POWER/gem5.opt -j160 && \
+            	build/POWER/gem5.opt --debug-flags=O3CPUAll,Registers configs/example/se.py -c ../test_bench/test_bench_{} \
+                | grep 'output'> gem5_{}_output.log && sync && cd .. && \
+                diff gem5/gem5_{}_output.log test_bench/test_bench_{}_output.log &&".format(instName, instName, instName, instName), shell=True, preexec_fn=os.setsid)
 
 if __name__ == "__main__":
     test = gem5DebugRun()

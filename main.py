@@ -13,6 +13,7 @@ class MyMainForm(QMainWindow, Ui_Form):
         super(MyMainForm, self).__init__(parent)
         self.setupUi(self)
         self.code = None
+        self.debug = None
 
 
 if __name__ == "__main__":
@@ -100,9 +101,13 @@ if __name__ == "__main__":
     def run(win):
         mnemonics = win.lineEdit_mnemonics.text()
         compile = win.Checkbox_Compile.isChecked()
+        
+        
         debug = win.Checkbox_Debug.isChecked()
-        run = gem5DebugRun()
-        run.gem5DebugRun(mnemonics, compile, debug)
+        if (win.debug == None):
+            win.debug = gem5DebugRun()
+
+        win.debug.gem5DebugRun(mnemonics, compile, debug)
 
     def sync_operands(win):
         if (win.Checkbox_OperandSync.isChecked()):
