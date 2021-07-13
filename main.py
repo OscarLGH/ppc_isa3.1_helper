@@ -50,7 +50,7 @@ if __name__ == "__main__":
         if (format == "VA Form"):
             isa_format = "VA_XO"
         if (format == "VX Form"):
-            isa_format = "X_XO"
+            isa_format = "VX_XO"
 
         if (win.code == None) :
             win.code = gem5_code_gen()
@@ -89,7 +89,8 @@ if __name__ == "__main__":
 
         test = testBenchGen()
         test_str = test.openReplaceFile("vector.c", Mnemonics, disassemble_inst)
-        win.textEdit_generatedCode.setText(test_str)
+        #win.textEdit_generatedCode.setText(test_str)
+        print(test_str)
 
     def insertCode(win):
         code = win.textEdit_generatedCode.toPlainText()

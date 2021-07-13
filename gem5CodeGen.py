@@ -19,19 +19,31 @@ class gem5_code_gen(object):
         str = str.replace('"###FORMAT###"', format)
         str = str.replace('"###XO###"', xo)
         str = str.replace('"###MNEMONICS###"', mnemonics)
-        str = str.replace('"###COMMENT###"', comment)
+
+        if (comment == ""):
+            str = str.replace('"###COMMENT###"', "//comment")
+        else:
+            str = str.replace('"###COMMENT###"', comment)
+
         str = str.replace('"###VRA###"', src1)
         str = str.replace('"###VRB###"', src2)
         str = str.replace('"###VRC###"', src3)
         str = str.replace('"###VRT###"', dst)
-        str = str.replace('"###CODE_SEG_1###"', self.code_seg_1)
+
+        if (self.code_seg_1 == ""):
+            str = str.replace('"###CODE_SEG_1###"', "//code seg 1")
+        else:
+            str = str.replace('"###CODE_SEG_1###"', self.code_seg_1)
         str = str.replace('"###ITERATIONS###"', iterations)
         if (self.code_seg_2 == ""):
             str = str.replace('"###CODE_SEG_2###"', "vrt_val[i] = vra_val[i] + vrb_val[i] + vrc_val[i];")
         else:
             str = str.replace('"###CODE_SEG_2###"', self.code_seg_2)
 
-        str = str.replace('"###CODE_SEG_3###"', self.code_seg_3)
+        if (self.code_seg_3 == ""):
+            str = str.replace('"###CODE_SEG_3###"', "//code seg 3")
+        else:
+            str = str.replace('"###CODE_SEG_3###"', self.code_seg_3)
 
         fd_rd.close()
         return str
