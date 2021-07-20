@@ -152,15 +152,29 @@ void store_vector_dst(void *vector)
 	);
 }
 
+uint64_t store_cr(void)
+{
+	uint64_t cr_val;
+	asm (
+		"mfcr %0 \n"
+		:"=r"(cr_val)
+		:
+		:
+	);
+	return cr_val;
+}
+
 void main()
 {
 	int i;
+	uint64_t cr;
 	for (i = 0; i < ARRAY_SIZE(vector_array_src1); i++) {
 		//printf("loading vector:%llx %llx\n", vector_array_ld[0], vector_array_ld[1]);
 		load_vector_src1(&vector_array_src1[i * 2]);
 		load_vector_src2(&vector_array_src2[i * 2]);
 		load_vector_src3(&vector_array_src3[i * 2]);
 		operations();
+		cr = store_cr();
 		store_vector_dst(&vector_array_dst[0]);
 		printf("####output####{%016llx %016llx}\n",((uint64_t *)&vector_array_dst[0])[0], ((uint64_t *)&vector_array_dst[0])[1]);
 	}

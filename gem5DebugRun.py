@@ -17,7 +17,7 @@ class gem5_debug_run(object):
         else:
             cmd1 = "cp ../gem5/src/arch/power/isa/decoder.isa ../gem5/src/arch/power/isa/decoder.isa.bak && \
                     cp decoder.isa ../gem5/src/arch/power/isa/decoder.isa &&"
-            cmd3 = "cp gem5/src/arch/power/isa/decoder.isa.bak gem5/src/arch/power/isa/decoder.isa"
+            cmd3 = "cp src/arch/power/isa/decoder.isa.bak src/arch/power/isa/decoder.isa &&"
 
         if (compile):
             cmd2 = "scons build/POWER/gem5.opt -j160 &&"
@@ -33,6 +33,7 @@ class gem5_debug_run(object):
                     ./test_bench_{2} | grep 'output' > test_bench_{2}_output.log && \
                     cd ../gem5 && \
             	    {1} \
+            	    {3} \
             	    build/POWER/gem5.opt --debug-flags=O3CPUAll,Registers configs/example/se.py -c ../test_bench/test_bench_{2} \
                     | grep 'output'> gem5_{2}_output.log && \
                     cat gem5_{2}_output.log && \
@@ -40,7 +41,6 @@ class gem5_debug_run(object):
                     echo 'comparing results:\n' && \
                     diff gem5/gem5_{2}_output.log test_bench/test_bench_{2}_output.log ; \
                     if [ $? -eq 0 ]; then echo '\e[32m\e[1mUnit test passed!\e[0m' ; else echo '\e[31m\e[1mUnit test failed!\e[0m'; fi ;\
-                    {3} \
                         ".format(cmd1, cmd2, instName, cmd3)
         #print(cmd_str)
 
