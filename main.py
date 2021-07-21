@@ -52,6 +52,24 @@ if __name__ == "__main__":
             isa_format = "VA_XO"
         if (format == "VX Form"):
             isa_format = "VX_XO"
+        if (format == "XX1 Form"):
+            isa_format = "XX1_XO"
+        if (format == "XX2 Form"):
+            isa_format = "XX2_XO"
+        if (format == "XX3 Form"):
+            isa_format = "XX3_XO"
+
+        if (format == "VA Form" or format == "VX Form" or format == "VC Form"):
+            src1_idx = "VRA + 32"
+            src2_idx = "VRB + 32"
+            src3_idx = "VRC + 32"
+            dst_idx = "VRT + 32"
+
+        if (format == "XX1 Form" or format == "XX2 Form" or format == "XX3 Form"):
+            src1_idx = "32 * XX_AX + XX_A"
+            src2_idx = "32 * XX_BX + XX_B"
+            src3_idx = "32 * XX_CX + XX_C"
+            dst_idx = "32 * XX_TX + XX_T"
 
         if (win.code == None) :
             win.code = gem5_code_gen()
@@ -59,8 +77,8 @@ if __name__ == "__main__":
             win.code.save_code(win.textEdit_generatedCode.toPlainText())
 
         code_str = win.code.open_replace_template("gem5_code_template.isa", PO, isa_format, format2, XO, Mnemonics,pseudocode,
-                                        comboBox_Src1ElemType, comboBox_Src2ElemType, comboBox_Src3ElemType, comboBox_DstElemType,
-                                        "{:.0f}".format(128 / op_bits), "", "", "")
+                                        src1_idx, src2_idx, src3_idx, dst_idx, comboBox_Src1ElemType, comboBox_Src2ElemType, comboBox_Src3ElemType, comboBox_DstElemType,
+                                        "{:.0f}".format(128 / op_bits))
         win.textEdit_generatedCode.setText(code_str)
 
     def generate_test(win):
@@ -69,27 +87,53 @@ if __name__ == "__main__":
         machineCode = win.MachineCode.isChecked()
         PO = win.lineEdit_PO.text()
         XO = win.lineEdit_XO.text()
+        if (PO == ""):
+            PO = "0"
+        if (XO == ""):
+            XO = "0"
 
         disassemble_inst = ""
+        po_code = int(PO, 10)
+        xo_code = int(XO, 10)
+        vrt = 3
+        vra = 0
+        vrb = 1
+        vrc = 2
+
+        inst_type = ""
         if (format == "VA Form"):
-            disassemble_inst = "{} %%v3, %%v0, %%v1, %%v2".format(Mnemonics)
+            disassemble_inst = "{0} %%v3, %%v0, %%v1, %%v2".format(Mnemonics)
+            inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (vrc << 6) | (xo_code)
+            inst_type = "vector"
         if (format == "VX Form"):
-            disassemble_inst = "{} %%v3, %%v0, %%v1".format(Mnemonics)
+            disassemble_inst = "{0} %%v3, %%v0, %%v1".format(Mnemonics)
+            inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code)
+            inst_type = "vector"
+        if (format == "VC Form"):
+            disassemble_inst = "{0} %%v3, %%v0, %%v1".format(Mnemonics)
+            inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code << 1) | 0x1
+            inst_type = "vector"
+        if (format == "XX1 Form"):
+            disassemble_inst = '{0} %%vs3 \\n""{0} %%vs35'.format(Mnemonics)
+            inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code << 1) | 0x1
+            inst_type = "scalar"
+        if (format == "XX2 Form"):
+            disassemble_inst = '{0} %%vs3, %%vs0 \\n""{0} %%vs35, %%vs32'.format(Mnemonics)
+            inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code << 2) | 0x3
+            inst_type = "scalar"
+        if (format == "XX3 Form"):
+            disassemble_inst = '{0} %%vs3, %%vs0, %%vs1 \\n""{0} %%vs35, %%vs32, %%vs33'.format(Mnemonics)
+            inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code << 3) | 0x7
+            inst_type = "scalar"
         if (machineCode) :
-            po_code = int(PO, 10)
-            xo_code = int(XO, 10)
-            vrt = 3
-            vra = 0
-            vrb = 1
-            vrc = 2
-            if (format == "VA Form"):
-                inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (vrc << 6) | (xo_code)
-            if (format == "VX Form"):
-                inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code)
             disassemble_inst = "/*{}*/.long 0x{:08X}".format(disassemble_inst, inst_word)
 
         test = testBenchGen()
-        test_str = test.openReplaceFile("vector.c", Mnemonics, disassemble_inst)
+        if (inst_type == "vector"):
+            test_str = test.openReplaceFile("vector.c", Mnemonics, disassemble_inst)
+
+        if (inst_type == "scalar"):
+            test_str = test.openReplaceFile("scalar.c", Mnemonics, disassemble_inst)
         #win.textEdit_generatedCode.setText(test_str)
         print(test_str)
 
@@ -122,13 +166,27 @@ if __name__ == "__main__":
             win.comboBox_Src2ElemType.setCurrentIndex(index)
             win.comboBox_Src3ElemType.setCurrentIndex(index)
 
+    def sync_idx(win):
+        format = win.comboBox_Format.currentText()
+        if (format == "VA Form" or format == "VX Form" or format == "VC Form"):
+            win.comboBox_Src1RegType.setCurrentIndex(0)
+            win.comboBox_Src2RegType.setCurrentIndex(0)
+            win.comboBox_Src3RegType.setCurrentIndex(0)
+            win.comboBox_DstRegType.setCurrentIndex(0)
 
+        if (format == "XX1 Form" or format == "XX2 Form" or format == "XX3 Form"):
+            win.comboBox_Src1RegType.setCurrentIndex(1)
+            win.comboBox_Src2RegType.setCurrentIndex(1)
+            win.comboBox_Src3RegType.setCurrentIndex(1)
+            win.comboBox_DstRegType.setCurrentIndex(1)
+    
     myWin.pushButton_GenCode.clicked.connect(lambda :generate_code(myWin))
     myWin.pushButton_GenTest.clicked.connect(lambda :generate_test(myWin))
     myWin.pushButton_InsertCode.clicked.connect(lambda :insertCode(myWin))
     myWin.pushButton_Debug.clicked.connect(lambda :run(myWin))
     myWin.pushButton_Commit.clicked.connect(lambda :commit_file(myWin))
     myWin.comboBox_DstElemType.currentIndexChanged.connect(lambda :sync_operands(myWin))
+    myWin.comboBox_Format.currentIndexChanged.connect(lambda :sync_idx(myWin))
     myWin.show()
 
     sys.exit(app.exec_())
