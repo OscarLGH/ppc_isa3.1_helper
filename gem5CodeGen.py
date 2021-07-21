@@ -10,8 +10,9 @@ class gem5_code_gen(object):
         self.code_seg_3 = ""
 
     def open_replace_template(self, template_file, po,
-                        bitfields, format, xo, mnemonics, comment, src1, src2,
-                        src3, dst, iterations, code_seg_1, code_seg_2, code_seg_3):
+                        bitfields, format, xo, mnemonics, comment, src1_idx, src2_idx,
+                        src3_idx, dst_idx, src1_type, src2_type,
+                        src3_type, dst_type, iterations):
         fd_rd = open(template_file, "rt")
         str = fd_rd.read()
         str = str.replace('"###PO###"', po)
@@ -25,10 +26,15 @@ class gem5_code_gen(object):
         else:
             str = str.replace('"###COMMENT###"', comment)
 
-        str = str.replace('"###VRA###"', src1)
-        str = str.replace('"###VRB###"', src2)
-        str = str.replace('"###VRC###"', src3)
-        str = str.replace('"###VRT###"', dst)
+        str = str.replace('"###REGA_IDX###"', src1_idx)
+        str = str.replace('"###REGB_IDX###"', src2_idx)
+        str = str.replace('"###REGC_IDX###"', src3_idx)
+        str = str.replace('"###REGT_IDX###"', dst_idx)
+
+        str = str.replace('"###REGA_TYPE###"', src1_type)
+        str = str.replace('"###REGB_TYPE###"', src2_type)
+        str = str.replace('"###REGC_TYPE###"', src3_type)
+        str = str.replace('"###REGT_TYPE###"', dst_type)
 
         if (self.code_seg_1 == ""):
             str = str.replace('"###CODE_SEG_1###"', "//code seg 1")

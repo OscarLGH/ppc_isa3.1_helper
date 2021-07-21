@@ -480,6 +480,11 @@
     </item>
     <item>
      <property name="text">
+      <string>XA</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
       <string>RA</string>
      </property>
     </item>
@@ -501,6 +506,11 @@
     <item>
      <property name="text">
       <string>VRB</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>XB</string>
      </property>
     </item>
     <item>
@@ -530,6 +540,11 @@
     </item>
     <item>
      <property name="text">
+      <string>XC</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
       <string>RC</string>
      </property>
     </item>
@@ -551,6 +566,11 @@
     <item>
      <property name="text">
       <string>VRT</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>XT</string>
      </property>
     </item>
     <item>
@@ -631,6 +651,21 @@
     <item>
      <property name="text">
       <string>VC Form</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>XX1 Form</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>XX2 Form</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>XX3 Form</string>
      </property>
     </item>
    </widget>
