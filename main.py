@@ -93,6 +93,7 @@ if __name__ == "__main__":
             XO = "0"
 
         disassemble_inst = ""
+        disassemble_inst_same_operand = ""
         po_code = int(PO, 10)
         xo_code = int(XO, 10)
         vrt = 3
@@ -103,37 +104,61 @@ if __name__ == "__main__":
         inst_type = ""
         if (format == "VA Form"):
             disassemble_inst = "{0} %%v3, %%v0, %%v1, %%v2".format(Mnemonics)
+            disassemble_inst_same_operand = "{0} %%v4, %%v4, %%v4, %%v4".format(Mnemonics)
             inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (vrc << 6) | (xo_code)
             inst_type = "vector"
         if (format == "VX Form"):
             disassemble_inst = "{0} %%v3, %%v0, %%v1".format(Mnemonics)
+            disassemble_inst_same_operand = "{0} %%v4, %%v4, %%v4".format(Mnemonics)
             inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code)
             inst_type = "vector"
         if (format == "VC Form"):
             disassemble_inst = "{0} %%v3, %%v0, %%v1".format(Mnemonics)
+            disassemble_inst_same_operand = "{0} %%v4, %%v4, %%v4".format(Mnemonics)
             inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code << 1) | 0x1
             inst_type = "vector"
         if (format == "XX1 Form"):
-            disassemble_inst = '{0} %%vs3 \\n""{0} %%vs35'.format(Mnemonics)
+            disassemble_inst = '{0} %%vs3 \\n""{0} %%vs35 \\n'.format(Mnemonics)
+            disassemble_inst_same_operand = "{0} %%vs4 \\n""{0} %%vs36 \\n".format(Mnemonics)
             inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code << 1) | 0x1
             inst_type = "scalar"
         if (format == "XX2 Form"):
-            disassemble_inst = '{0} %%vs3, %%vs0 \\n""{0} %%vs35, %%vs32'.format(Mnemonics)
+            disassemble_inst = '{0} %%vs3, %%vs0 \\n""{0} %%vs35, %%vs32 \\n'.format(Mnemonics)
+            disassemble_inst_same_operand = '{0} %%vs4, %%vs4 \\n""{0} %%vs36, %%vs36 \\n'.format(Mnemonics)
             inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code << 2) | 0x3
             inst_type = "scalar"
         if (format == "XX3 Form"):
-            disassemble_inst = '{0} %%vs3, %%vs0, %%vs1 \\n""{0} %%vs35, %%vs32, %%vs33'.format(Mnemonics)
+            disassemble_inst = '{0} %%vs3, %%vs0, %%vs1 \\n""{0} %%vs35, %%vs32, %%vs33 \\n'.format(Mnemonics)
+            disassemble_inst_same_operand = '{0} %%vs4, %%vs4, %%vs4 \\n""{0} %%vs36, %%vs36, %%vs36 \\n'.format(Mnemonics)
             inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code << 3) | 0x7
             inst_type = "scalar"
+        if (format == "FA Form"):
+            disassemble_inst = '{0} %%f3, %%f0, %%f1, %%f2'.format(Mnemonics)
+            disassemble_inst_same_operand = '{0} %%f4, %%f4, %%f4, %%f4'.format(Mnemonics)
+            inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code << 3) | 0x7
+            inst_type = "fp"
+        if (format == "FX Form"):
+            disassemble_inst = '{0} %%f3, %%f0, %%f1'.format(Mnemonics)
+            disassemble_inst_same_operand = '{0} %%f4, %%f4, %%f4'.format(Mnemonics)
+            inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code << 3) | 0x7
+            inst_type = "fp"
+        if (format == "FC Form"):
+            disassemble_inst = '{0} %%f3, %%f0, %%f1'.format(Mnemonics)
+            disassemble_inst_same_operand = '{0} %%f4, %%f4, %%f4'.format(Mnemonics)
+            inst_word = (po_code << 26) | (vrt << 21) | (vra << 16) | (vrb << 11) | (xo_code << 3) | 0x7
+            inst_type = "fp"
         if (machineCode) :
             disassemble_inst = "/*{}*/.long 0x{:08X}".format(disassemble_inst, inst_word)
 
         test = testBenchGen()
         if (inst_type == "vector"):
-            test_str = test.openReplaceFile("vector.c", Mnemonics, disassemble_inst)
+            test_str = test.openReplaceFile("vector.c", Mnemonics, disassemble_inst, disassemble_inst_same_operand)
 
         if (inst_type == "scalar"):
-            test_str = test.openReplaceFile("scalar.c", Mnemonics, disassemble_inst)
+            test_str = test.openReplaceFile("scalar.c", Mnemonics, disassemble_inst, disassemble_inst_same_operand)
+            
+        if (inst_type == "fp"):
+            test_str = test.openReplaceFile("fp.c", Mnemonics, disassemble_inst, disassemble_inst_same_operand)
         #win.textEdit_generatedCode.setText(test_str)
         print(test_str)
 
@@ -179,6 +204,12 @@ if __name__ == "__main__":
             win.comboBox_Src2RegType.setCurrentIndex(1)
             win.comboBox_Src3RegType.setCurrentIndex(1)
             win.comboBox_DstRegType.setCurrentIndex(1)
+        if (format == "FX Form" or format == "FA Form" or format == "FC Form"):
+            win.comboBox_Src1RegType.setCurrentIndex(3)
+            win.comboBox_Src2RegType.setCurrentIndex(3)
+            win.comboBox_Src3RegType.setCurrentIndex(3)
+            win.comboBox_DstRegType.setCurrentIndex(3)
+            win.comboBox_Format_2.setCurrentIndex(1)
     
     myWin.pushButton_GenCode.clicked.connect(lambda :generate_code(myWin))
     myWin.pushButton_GenTest.clicked.connect(lambda :generate_test(myWin))

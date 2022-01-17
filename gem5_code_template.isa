@@ -15,6 +15,7 @@ decode PO default Unknown::unknown() {
                 auto vrc_val = vrc_reg.as<"###REGC_TYPE###">();
                 auto vrt_reg = tc->readVecReg(vrt_id);
                 auto vrt_val = vrt_reg.as<"###REGT_TYPE###">();
+                Fpscr fpscr_0 = FPSCR;
 
                 /*
                 "###COMMENT###"
@@ -26,15 +27,25 @@ decode PO default Unknown::unknown() {
 
                 for (auto i = 0; i < "###ITERATIONS###"; i++) {
 
+                    fp_before_cal(fpscr_0);
                     /* CODE SEG 2 */
                     "###CODE_SEG_2###"
                     /* CODE SEG 2 END */
+                    std::tie(tmp, fpscr_0) = get_floating_exception(vra_val[i], vrb_val[i], fpscr_0, tmp);
+                    if (isInfinity(vra_val[i]) && isInfinity(vrb_val[i])) {
+                            if ((isPosInfinity(vra_val[i]) && !isPosInfinity(vrb_val[i])) ||
+                            (!isPosInfinity(vra_val[i]) && isPosInfinity(vrb_val[i])))
+                                fpscr_0.vxisi = 1;
+                                fpscr_0.fx = 1;
+                        }
+ 
+                        vrt_val[i] = tmp;
                 }
 
                 /* CODE SEG 3 */
                 "###CODE_SEG_3###"
                 /* CODE SEG 3 END */
-
+                FPSCR = fpscr_0;
                 tc->setVecReg(vrt_id, vrt_reg);
             }});
         }

@@ -42,7 +42,7 @@ class gem5_code_gen(object):
             str = str.replace('"###CODE_SEG_1###"', self.code_seg_1)
         str = str.replace('"###ITERATIONS###"', iterations)
         if (self.code_seg_2 == ""):
-            str = str.replace('"###CODE_SEG_2###"', "vrt_val[i] = vra_val[i] + vrb_val[i] + vrc_val[i];")
+            str = str.replace('"###CODE_SEG_2###"', "auto tmp = vra_val[i] + vrb_val[i];")
         else:
             str = str.replace('"###CODE_SEG_2###"', self.code_seg_2)
 
