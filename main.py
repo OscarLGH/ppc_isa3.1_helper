@@ -204,6 +204,7 @@ if __name__ == "__main__":
             win.comboBox_Src2RegType.setCurrentIndex(1)
             win.comboBox_Src3RegType.setCurrentIndex(1)
             win.comboBox_DstRegType.setCurrentIndex(1)
+
         if (format == "FX Form" or format == "FA Form" or format == "FC Form"):
             win.comboBox_Src1RegType.setCurrentIndex(3)
             win.comboBox_Src2RegType.setCurrentIndex(3)

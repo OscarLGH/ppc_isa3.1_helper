@@ -15,7 +15,6 @@ decode PO default Unknown::unknown() {
                 auto vrc_val = vrc_reg.as<"###REGC_TYPE###">();
                 auto vrt_reg = tc->readVecReg(vrt_id);
                 auto vrt_val = vrt_reg.as<"###REGT_TYPE###">();
-                Fpscr fpscr_0 = FPSCR;
 
                 /*
                 "###COMMENT###"
