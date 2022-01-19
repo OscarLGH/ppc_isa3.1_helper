@@ -27,28 +27,28 @@ typedef unsigned long long uint64_t;
 
 
 uint64_t __attribute__((aligned(16))) vector_array_src1[] = {
-	0xff800000ff800000, 0xff800000ff800000,  /* float -inf */
-	0xfff0000000000000, 0xfff0000000000000,  /* double -inf */
-	0xff7fffffff7fffff, 0xff7fffffff7fffff,  /* float -NZF -MAX */
-	0xffefffffffffffff, 0xffefffffffffffff,  /* double -NZF -MAX */
-	0x8080000080800000, 0x8080000080800000,  /* float -NZF -MIN */
-	0x8010000000000000, 0x8010000000000000,  /* double -NZF -MIN */
-	0x8000000080000000, 0x8000000080000000,  /* float -0 */
-	0x8000000000000000, 0x8000000000000000,  /* double -0 */
-	0x0,0x0,				  /* float/double +0 */
-	0x7f7fffff7f7fffff, 0x7f7fffff7fffffff,  /* float +MAX +NZF */
-	0x7fefffffffffffff, 0x7fefffffffffffff,  /* double +MAX +NZF */
-	0x0080000000800000, 0x0080000000800000,  /* float +MIN +NZF*/
-	0x0010000000000000, 0x0010000000000000,  /* double +MIN +NZF*/
-	0x7f8000007f800000, 0x7f8000007f800000,  /* float +inf */
-	0x7ff0000000000000, 0x7ff0000000000000,  /* double +inf */
-	0xffffffffffffffff, 0xffffffffffffffff,  /* float/double QNaN1 */
-	0xfffffffffffffffe, 0xfffffffffffffffe,  /* float/double QNaN2 */
-	0xffbfffffffbfffff, 0xffbfffffffbfffff,  /* float SNaN1 */
-	0xffbffffeffbffffe, 0xffbffffeffbffffe,  /* float SNaN2 */
-	0xfff7ffffffffffff, 0xfff7ffffffffffff,  /* double SNaN1 */
-	0xfff7fffffffffffe, 0xfff7fffffffffffe,  /* double SNaN2 */
-	0x08090a0b0c0d0e0f, 0x0001020304050607,  /* integer vector */
+	0xff800000ff800000, 0xff800000ff800000,  /* [0] float -inf */
+	0xfff0000000000000, 0xfff0000000000000,  /* [1] double -inf */
+	0xff7fffffff7fffff, 0xff7fffffff7fffff,  /* [2] float -NZF -MAX */
+	0xffefffffffffffff, 0xffefffffffffffff,  /* [3] double -NZF -MAX */
+	0x8080000080800000, 0x8080000080800000,  /* [4] float -NZF -MIN */
+	0x8010000000000000, 0x8010000000000000,  /* [5] double -NZF -MIN */
+	0x8000000080000000, 0x8000000080000000,  /* [6] float -0 */
+	0x8000000000000000, 0x8000000000000000,  /* [7] double -0 */
+	0x0,0x0,								 /* [8] float/double +0 */
+	0x7f7fffff7f7fffff, 0x7f7fffff7fffffff,  /* [9] float +MAX +NZF */
+	0x7fefffffffffffff, 0x7fefffffffffffff,  /* [10] double +MAX +NZF */
+	0x0080000000800000, 0x0080000000800000,  /* [11] float +MIN +NZF*/
+	0x0010000000000000, 0x0010000000000000,  /* [12] double +MIN +NZF*/
+	0x7f8000007f800000, 0x7f8000007f800000,  /* [13] float +inf */
+	0x7ff0000000000000, 0x7ff0000000000000,  /* [14] double +inf */
+	0xffffffffffffffff, 0xffffffffffffffff,  /* [15] float/double QNaN1 */
+	0xfffffffffffffffe, 0xfffffffffffffffe,  /* [16] float/double QNaN2 */
+	0xffbfffffffbfffff, 0xffbfffffffbfffff,  /* [17] float SNaN1 */
+	0xffbffffeffbffffe, 0xffbffffeffbffffe,  /* [18] float SNaN2 */
+	0xfff7ffffffffffff, 0xfff7ffffffffffff,  /* [19] double SNaN1 */
+	0xfff7fffffffffffe, 0xfff7fffffffffffe,  /* [20] double SNaN2 */
+	0x08090a0b0c0d0e0f, 0x0001020304050607,  /* [21] integer vector */
 };
 
 uint64_t __attribute__((aligned(16))) vector_array_dst[2] = {0};

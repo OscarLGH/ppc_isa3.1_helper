@@ -34,7 +34,9 @@ class gem5_debug_run(object):
                     cd ../gem5 && \
             	    {1} \
             	    {3} \
-            	    build/POWER/gem5.opt configs/example/se.py -c ../test_bench/test_bench_{2} \
+                    build/POWER/gem5.opt configs/example/se.py --cpu-type=DerivO3CPU \
+                    --caches --l1d_size=1024 --l1i_size=1024 --l2cache --l2_size=1024 \
+                    -c ../test_bench/test_bench_{2} \
                     | grep 'output'> gem5_{2}_output.log && \
                     cat gem5_{2}_output.log && \
                     cd .. && \
