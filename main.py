@@ -176,7 +176,7 @@ if __name__ == "__main__":
         if (win.run == None):
             win.run = gem5_debug_run()
 
-        win.run.gem5_debug_run(mnemonics, compile, test_only)
+        win.run.gem5_debug_run(mnemonics, compile, test_only, win.Checkbox_O3.isChecked())
 
     def commit_file(win):
         if (win.run == None):

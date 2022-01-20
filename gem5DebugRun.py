@@ -9,7 +9,7 @@ class gem5_debug_run(object):
     def __init__(self, parent=None):
         self.make_process = None
         
-    def gem5_debug_run(self, instName, compile, test_only):
+    def gem5_debug_run(self, instName, compile, test_only, is_o3):
 
         if (test_only) :
             cmd1 = ""
@@ -18,6 +18,10 @@ class gem5_debug_run(object):
             cmd1 = "cp ../gem5/src/arch/power/isa/decoder.isa ../gem5/src/arch/power/isa/decoder.isa.bak && \
                     cp decoder.isa ../gem5/src/arch/power/isa/decoder.isa &&"
             cmd3 = "cp src/arch/power/isa/decoder.isa.bak src/arch/power/isa/decoder.isa &&"
+
+        o3_parm = ""
+        if (is_o3):
+            o3_parm = "--cpu-type=DerivO3CPU --caches --l1d_size=1024 --l1i_size=1024 --l2cache --l2_size=1024"
 
         if (compile):
             cmd2 = "scons build/POWER/gem5.opt -j160 &&"
@@ -34,8 +38,7 @@ class gem5_debug_run(object):
                     cd ../gem5 && \
             	    {1} \
             	    {3} \
-                    build/POWER/gem5.opt configs/example/se.py --cpu-type=DerivO3CPU \
-                    --caches --l1d_size=1024 --l1i_size=1024 --l2cache --l2_size=1024 \
+                    build/POWER/gem5.opt configs/example/se.py {4} \
                     -c ../test_bench/test_bench_{2} \
                     | grep 'output'> gem5_{2}_output.log && \
                     cat gem5_{2}_output.log && \
@@ -43,7 +46,7 @@ class gem5_debug_run(object):
                     echo 'comparing results:\n' && \
                     diff gem5/gem5_{2}_output.log test_bench/test_bench_{2}_output.log -y -W 400; \
                     if [ $? -eq 0 ]; then echo '\e[32m\e[1mUnit test passed!\e[0m' ; else echo '\e[31m\e[1mUnit test failed!\e[0m'; fi ;\
-                        ".format(cmd1, cmd2, instName, cmd3)
+                        ".format(cmd1, cmd2, instName, cmd3, o3_parm)
         #print(cmd_str)
 
         self.make_process = subprocess.Popen(cmd_str, shell=True, preexec_fn=os.setsid)
