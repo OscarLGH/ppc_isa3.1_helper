@@ -213,7 +213,7 @@ uint64_t store_fpscr(void)
 
 uint64_t __attribute__((aligned(16))) vscr[2] = {0};
 
-void main()
+int main()
 {
 	int i, j, k;
 	int cnt = 0;
@@ -244,4 +244,5 @@ void main()
 		store_vector_dst_1(&vector_array_dst[0]);
 		printf("####output %04d(%02d %02d %02d)####{DST 0x%016llx%016llx CR:%llx VSCR:%llx}\n", cnt++, i, i, i, vector_array_dst[1], vector_array_dst[0], cr, vscr[0]);
 	}
+	return 0;
 }
