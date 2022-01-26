@@ -14,10 +14,6 @@ class gem5_debug_run(object):
         if (test_only) :
             cmd1 = ""
             cmd3 = ""
-        else:
-            cmd1 = "cp ../gem5/src/arch/power/isa/decoder.isa ../gem5/src/arch/power/isa/decoder.isa.bak && \
-                    cp decoder.isa ../gem5/src/arch/power/isa/decoder.isa &&"
-            cmd3 = "cp src/arch/power/isa/decoder.isa.bak src/arch/power/isa/decoder.isa &&"
 
         o3_parm = ""
         if (is_o3):
@@ -31,25 +27,36 @@ class gem5_debug_run(object):
         else:
             cmd2 = ""
 
-        cmd_str = " {0} \
-                    cd ../test_bench && \
-                    gcc test_bench_{2}.c -static -mregnames -o test_bench_{2} && \
-                    ./test_bench_{2} | grep 'output' > test_bench_{2}_output.log && \
-                    cd ../gem5 && \
-            	    {1} \
-            	    {3} \
-                    build/POWER/gem5.opt configs/example/se.py {4} \
+        cmd_str = " cd ../gem5 &&\
+                    build/POWER/gem5.opt configs/example/se.py \
                     -c ../test_bench/test_bench_{2} \
                     | grep 'output'> gem5_{2}_output.log && \
                     cat gem5_{2}_output.log && \
                     cd .. && \
                     echo 'comparing results:\n' && \
                     diff gem5/gem5_{2}_output.log test_bench/test_bench_{2}_output.log -y -W 400; \
-                    if [ $? -eq 0 ]; then echo '\e[32m\e[1mUnit test passed!\e[0m' ; else echo '\e[31m\e[1mUnit test failed!\e[0m'; fi ;\
+                    if [ $? -eq 0 ]; then echo '\e[32m\e[1mAtomic Unit test passed!\e[0m' ; else echo '\e[31m\e[1mAtomic Unit test failed!\e[0m'; fi ;\
+                        ".format(cmd1, cmd2, instName, cmd3)
+
+        cmd_o3_str = " cd ../gem5 &&\
+                    build/POWER/gem5.opt configs/example/se.py {4} \
+                    -c ../test_bench/test_bench_{2} \
+                    | grep 'output'> gem5_{2}_o3_output.log && \
+                    cat gem5_{2}_output.log && \
+                    cd .. && \
+                    echo 'comparing results:\n' && \
+                    diff gem5/gem5_{2}_output.log test_bench/test_bench_{2}_output.log -y -W 400; \
+                    ATOMIC_RET=$? && \
+                    diff gem5/gem5_{2}_o3_output.log test_bench/test_bench_{2}_output.log -y -W 400; \
+                    O3_RET=$? && \
+                    if [ $ATOMIC_RET -eq 0 ]; then echo '\e[32m\e[1mAtomic Unit test passed!\e[0m' ; else echo '\e[31m\e[1mAtomic Unit test failed!\e[0m'; fi ;\
+                    if [ $O3_RET -eq 0 ]; then echo '\e[32m\e[1mO3 Unit test passed!\e[0m' ; else echo '\e[31m\e[1mO3 Unit test failed!\e[0m'; fi ;\
                         ".format(cmd1, cmd2, instName, cmd3, o3_parm)
         #print(cmd_str)
 
         self.make_process = subprocess.Popen(cmd_str, shell=True, preexec_fn=os.setsid)
+        if (o3_parm):
+            self.make_process = subprocess.Popen(cmd_o3_str, shell=True, preexec_fn=os.setsid)
 
     def gem5_commit_file(self):
         cmd_str = "cp decoder.isa ../gem5/src/arch/power/isa/decoder.isa && echo '\e[32m\e[1mfile committed.\e[0m'"

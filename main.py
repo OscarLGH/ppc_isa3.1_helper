@@ -85,6 +85,7 @@ if __name__ == "__main__":
         format = win.comboBox_Format.currentText()
         Mnemonics = win.lineEdit_mnemonics.text()
         machineCode = win.MachineCode.isChecked()
+        reGen = win.ReGen.isChecked()
         PO = win.lineEdit_PO.text()
         XO = win.lineEdit_XO.text()
         if (PO == ""):
@@ -152,13 +153,13 @@ if __name__ == "__main__":
 
         test = testBenchGen()
         if (inst_type == "vector"):
-            test_str = test.openReplaceFile("vector.c", Mnemonics, disassemble_inst, disassemble_inst_same_operand)
+            test_str = test.openReplaceFile("vector.c", Mnemonics, disassemble_inst, disassemble_inst_same_operand, reGen)
 
         if (inst_type == "scalar"):
-            test_str = test.openReplaceFile("scalar.c", Mnemonics, disassemble_inst, disassemble_inst_same_operand)
+            test_str = test.openReplaceFile("scalar.c", Mnemonics, disassemble_inst, disassemble_inst_same_operand, reGen)
             
         if (inst_type == "fp"):
-            test_str = test.openReplaceFile("fp.c", Mnemonics, disassemble_inst, disassemble_inst_same_operand)
+            test_str = test.openReplaceFile("fp.c", Mnemonics, disassemble_inst, disassemble_inst_same_operand, reGen)
         #win.textEdit_generatedCode.setText(test_str)
         print(test_str)
 

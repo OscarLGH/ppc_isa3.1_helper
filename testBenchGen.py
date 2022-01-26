@@ -5,14 +5,17 @@ import subprocess
 from pathlib import Path
 
 class testBenchGen(object):
-    def openReplaceFile(self, fileName, instName, instLine, instLineSameOperand):
+    def openReplaceFile(self, fileName, instName, instLine, instLineSameOperand, reGen):
         fd_rd = open(fileName, "rt")
         path_name = "../test_bench"
         test_path = Path(path_name)
         if not test_path.is_dir() :
             os.mkdir(path_name)
 
-        fd_wr = open("../test_bench/test_bench_{}.c".format(instName), "w")
+        file_mode = "a"
+        if reGen:
+            file_mode = "w"
+        fd_wr = open("../test_bench/test_bench_{}.c".format(instName), file_mode)
         str = fd_rd.read()
         str = str.replace("{###place_holder###}", "{}".format(instLine))
         str = str.replace("{###place_holder_same_operand###}", "{}".format(instLineSameOperand))
@@ -29,4 +32,4 @@ class testBenchGen(object):
 
 if __name__ == "__main__":
     test = testBenchGen()
-    test.openReplaceFile(sys.argv[1], sys.argv[2])
+    test.openReplaceFile(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
