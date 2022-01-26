@@ -28,6 +28,7 @@ class gem5_debug_run(object):
             cmd2 = ""
 
         cmd_str = " cd ../gem5 &&\
+                    {1} \
                     build/POWER/gem5.opt configs/example/se.py \
                     -c ../test_bench/test_bench_{2} \
                     | grep 'output'> gem5_{2}_output.log && \
