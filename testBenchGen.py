@@ -16,7 +16,7 @@ class testBenchGen(object):
         if reGen:
             file_mode = "w"
         fd_wr = open("../test_bench/test_bench_{}.c".format(instName), file_mode)
-
+        str = fd_wr
         if reGen:
             str = fd_rd.read()
             str = str.replace("{###place_holder###}", "{}".format(instLine))
