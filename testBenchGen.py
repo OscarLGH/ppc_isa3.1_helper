@@ -16,12 +16,14 @@ class testBenchGen(object):
         if reGen:
             file_mode = "w"
         fd_wr = open("../test_bench/test_bench_{}.c".format(instName), file_mode)
-        str = fd_rd.read()
-        str = str.replace("{###place_holder###}", "{}".format(instLine))
-        str = str.replace("{###place_holder_same_operand###}", "{}".format(instLineSameOperand))
-        fd_wr.write(str)
-        fd_wr.close()
-        fd_rd.close()
+
+        if reGen:
+            str = fd_rd.read()
+            str = str.replace("{###place_holder###}", "{}".format(instLine))
+            str = str.replace("{###place_holder_same_operand###}", "{}".format(instLineSameOperand))
+            fd_wr.write(str)
+            fd_wr.close()
+            fd_rd.close()
         subprocess.Popen("cd ../test_bench && gedit test_bench_{0}.c && \
                 gcc test_bench_{0}.c -static -mregnames -o test_bench_{0} && \
                 ./test_bench_{0} | grep 'output' > test_bench_{0}_output.log &&\

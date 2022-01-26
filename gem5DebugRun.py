@@ -33,7 +33,7 @@ class gem5_debug_run(object):
                     | grep 'output'> gem5_{2}_output.log && \
                     cat gem5_{2}_output.log && \
                     cd .. && \
-                    echo 'comparing results:\n' && \
+                    echo 'comparing ATOMIC results:\n' && \
                     diff gem5/gem5_{2}_output.log test_bench/test_bench_{2}_output.log -y -W 400; \
                     if [ $? -eq 0 ]; then echo '\e[32m\e[1mAtomic Unit test passed!\e[0m' ; else echo '\e[31m\e[1mAtomic Unit test failed!\e[0m'; fi ;\
                         ".format(cmd1, cmd2, instName, cmd3)
@@ -44,9 +44,10 @@ class gem5_debug_run(object):
                     | grep 'output'> gem5_{2}_o3_output.log && \
                     cat gem5_{2}_output.log && \
                     cd .. && \
-                    echo 'comparing results:\n' && \
+                    echo 'comparing ATOMIC results:\n' && \
                     diff gem5/gem5_{2}_output.log test_bench/test_bench_{2}_output.log -y -W 400; \
                     ATOMIC_RET=$? && \
+                    echo 'comparing O3 results:\n' && \
                     diff gem5/gem5_{2}_o3_output.log test_bench/test_bench_{2}_output.log -y -W 400; \
                     O3_RET=$? && \
                     if [ $ATOMIC_RET -eq 0 ]; then echo '\e[32m\e[1mAtomic Unit test passed!\e[0m' ; else echo '\e[31m\e[1mAtomic Unit test failed!\e[0m'; fi ;\
