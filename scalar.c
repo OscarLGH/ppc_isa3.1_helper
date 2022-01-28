@@ -287,7 +287,7 @@ int main()
 				store_vscr((__uint128_t *)&vscr[0]);
 				fpscr = store_fpscr();
 				//fpscr |= (2 << 17);
-				//fpscr = 0;
+				fpscr = 0;
 				store_scalar_dst1(&vector_array_dst[0]);
 				printf("####output1 %04d(%02d %02d %02d)####{DST 0x%016llx%016llx CR:%llx VSCR:%llx FPSCR:%llx}\n", cnt, i, j, k, vector_array_dst[1], vector_array_dst[0], cr, vscr[0], fpscr);
 				//store_scalar_dst2(&vector_array_dst[0]);
@@ -303,6 +303,7 @@ int main()
 		cr = store_cr();
 		store_vscr((__uint128_t *)&vscr[0]);
 		fpscr = store_fpscr();
+		fpscr = 0;
 		store_scalar_dst4(&vector_array_dst[0]);
 		//store_scalar_dst36(&vector_array_dst[2]);
 		printf("####output1 %04d(%02d %02d %02d)####{DST 0x%016llx%016llx CR:%llx VSCR:%llx FPSCR:%llx}\n", cnt++, i, i, i, vector_array_dst[1], vector_array_dst[0], cr, vscr[0], fpscr);
